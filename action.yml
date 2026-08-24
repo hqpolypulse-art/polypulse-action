@@ -3,7 +3,7 @@ description: 'Context-aware i18n localization with Playwright visual UI overflow
 author: 'PolyPulse'
 branding:
   icon: 'globe'
-  color: purple'
+  color: 'purple'
 inputs:
   api_key:
     description: 'Your PolyPulse/LLM API Key'
