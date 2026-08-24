@@ -1,0 +1,40 @@
+name: 'PolyPulse - UI Localization & QA'
+description: 'Context-aware i18n localization with Playwright visual UI overflow detection & auto-fix.'
+author: 'PolyPulse'
+branding:
+  icon: 'globe'
+  color: 'indigo'
+
+inputs:
+  api_key:
+    description: 'Your PolyPulse/LLM API Key'
+    required: true
+  source_file:
+    description: 'Path to source language file'
+    required: false
+    default: 'locales/en.json'
+  target_languages:
+    description: 'Comma-separated target languages (e.g. de,ja,ar,es)'
+    required: true
+  preview_url:
+    description: 'URL to run Playwright Visual QA against'
+    required: false
+    default: 'http://localhost:3000'
+  auto_pr:
+    description: 'Automatically open a Pull Request with fixes'
+    required: false
+    default: 'true'
+  github_token:
+    description: 'GITHUB_TOKEN for PR operations'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  pr_url:
+    description: 'The URL of the created Pull Request'
+  overflow_count:
+    description: 'Total number of UI overflow issues detected and resolved'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
