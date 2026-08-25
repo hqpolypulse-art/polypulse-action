@@ -1,0 +1,26 @@
+name: HN Community Monitor Agent
+
+on:
+  schedule:
+    - cron: '0 * * * *' # يتم الفحص آلياً كل ساعة
+  workflow_dispatch:   # يتيح لك التشغيل اليدوي للتجربة
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+         python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run HN Monitoring Agent
+        env:
+          HN_STORY_ID: ${{ secrets.HN_STORY_ID }}
+        run: python scripts/hn_monitor.py
