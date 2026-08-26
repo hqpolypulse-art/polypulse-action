@@ -1,13 +1,12 @@
-name: Autonomous Social Media Agent
+name: PolyPulse Autonomous Agent Workflow
 
 on:
   schedule:
-    # Runs automatically every day at 12:00 PM UTC
-    - cron: '0 12 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+    - cron: '0 12 * * *' # تشغيل تلقائي يومياً الساعة 12 ظهراً
+  workflow_dispatch: # إمكانية التشغيل اليدوي بضغطة زر
 
 jobs:
-  tweet:
+  agent_run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,13 +17,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: pip install requests requests-oauthlib
+      - name: Run Autonomous Agent
+        run: |
+          python scripts/social_agent.py
 
-      - name: Run Autonomous Agent to Post to X
-        env:
-          X_API_KEY: ${{ secrets.X_API_KEY }}
-          X_API_SECRET: ${{ secrets.X_API_SECRET }}
-          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
-        run: python scripts/social_agent.py
+      - name: Upload Daily Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-pulse-report
+          path: output/daily_report.md
